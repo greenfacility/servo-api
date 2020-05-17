@@ -419,6 +419,7 @@ const userService = {
       jwt.sign(
         {
           id: user.id,
+          usertype: user.usertype,
         },
         jwtSecret,
         {

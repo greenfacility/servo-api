@@ -21,9 +21,9 @@ const changePasswordTemplate = (email, token) => {
 			for the reset of your account password. Please click the button below or paste the link into
       your browser to complete this process within 15 minutes of recieving it.
       </p>
-			<a href='http://${HOST}/reset?token=${token}' style='padding: 8px; decoration: none; background: brown; color: white;'>
+			<a href='${HOST}/reset?token=${token}' style='padding: 8px; decoration: none; background: brown; color: white;'>
 			Reset Password</a>
-			<p>http://${HOST}/reset?token=${token} If you did not request for this, kindly ignore
+			<p>${HOST}/reset?token=${token} If you did not request for this, kindly ignore
 			this message and your password will remain unchanged.</p>`,
   };
 };
