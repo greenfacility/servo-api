@@ -80,6 +80,28 @@ const userService = {
   },
 
   /**
+   * Get all list of users from database
+   * @param req Request to the server
+   * @param res Response from the server
+   */
+  getAUserForPassword: (req, res) => {
+    User.findById(req.user.id)
+      .select('firstname lastname email')
+      .then((user) => {
+        if (!user)
+          return res
+            .status(404)
+            .json({ success: false, message: 'User not found' });
+        res.status(200).json({ success: true, result: user });
+      })
+      .catch((err) =>
+        res
+          .status(404)
+          .json({ success: false, message: 'Unable to fetch user' }),
+      );
+  },
+
+  /**
    * Register new user to the database
    * @param req Request to the server
    * @param res Response from the server

@@ -8,7 +8,7 @@ router.get('/', RequestOut.find);
 
 router.get('/:id', RequestOut.findOne);
 
-router.post('/', auth, RequestOut.post);
+router.post('/', RequestOut.post);
 
 router.put('/:id', auth, RequestOut.putSchedule);
 
