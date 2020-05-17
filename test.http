@@ -1,0 +1,11 @@
+GET http://localhost:3001/api/service HTTP/1.1
+content-type: application/json
+# Authorization: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVkZWFkNzUzNmYxN2Y1MGRkNGIyMGNlZiIsImlhdCI6MTU4ODQzNTIxNCwiZXhwIjoxNTg4NDM4ODE0fQ.BjdBnfCNm96Y1cIiSTrKHOEL4ufNnPZt4H-V7CANK9k"
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVkZWFkNzUzNmYxN2Y1MGRkNGIyMGNlZiIsImlhdCI6MTU4ODQ0NTM2OCwiZXhwIjoxNTg4NDQ4OTY4fQ.0q-IoczyMFzpKYDzxCs4sRs7J0a_Pac15XSSrdvjJPo
+
+{
+    "name": "Testing",
+    "type": "Electricity",
+    "email": "demo@demo.com",
+    "password": "test"
+}

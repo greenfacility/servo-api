@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Api Requests Documentation</title>
+    <style>
+    body{
+        font-family: 'Courier New', Courier, monospace;
+    }
+    </style>
+</head>
+<body>
+    <div style="padding: 1rem;">
+        <h1 align="center" >Welcome to the Greenfacilites API Documentation</h1>
+        <h2 align="center" >Users Api</h2>
+        
+        <p>These are the APIs for the users</p>
+        <p>GET REQUEST: <code>/users/api</code> <br/> <code>x-auth-token: </code> header with token from login to get user</p>
+        <p>GET REQUEST: <code>/users/api/all</code> <br/> To get all the users from the server</p>
+        <p>PUT REQUEST: <code>/users/api</code> <br/>To Register, Need JSON Like sample below
+            <pre>
+                <code>
+        {
+            "firstname": "Test",
+            "lastname": "LastName",
+            "password": "password",
+            "email": "email@domain.com",
+            "phonenumber": 0123456789,
+            "address": "Sample Avenue, City, State",
+            "picture": ""
+        }
+                </code> 
+            </pre>
+        </p>
+        <p>POST REQUEST: <code>/users/api</code> <br/>To login, Need JSON Like sample below
+            <pre>
+                <code>
+        {
+            "email": "email@domain.com"
+            "password": "password",
+        }
+                </code> 
+            </pre>
+            
+        </p>
+        <h2 align="center" >Services Api</h2>
+        <p>Coming Soon...</p>
+    </div>
+</body>
+</html>
