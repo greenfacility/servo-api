@@ -17,7 +17,7 @@ module.exports = (req, res, next) => {
     req.user = decoded;
     next();
   } catch (e) {
-    // console.log(e.message);
+    console.log(e);
     if (e.message.includes('expired')) {
       res
         .status(401)

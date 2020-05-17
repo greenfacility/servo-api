@@ -4,15 +4,14 @@ const router = express.Router();
 const User = require('../service/user.service');
 // User Model
 // const User = require('../model/User');
+// Get User for password
+router.get('/forgotpassword', auth, User.getAUserForPassword);
 
 // Get a particular user
 router.get('/:id', auth, User.getUserFromDb);
 
 // Get all users
 router.get('/', User.getAllUsersFromDb);
-
-// Get User for password
-router.get('/forgotpassword', auth, User.getAUserForPassword);
 
 // Send Email to confirm password
 router.post('/forgotpassword', User.sendEmailForPassReq);
