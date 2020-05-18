@@ -6,6 +6,8 @@ const {
   workAssignedTemplate,
   beforeScheduleTemplate,
   afterScheduleTemplate,
+  statusChangeTemplate,
+  statusChangeDoneTemplate,
 } = require('./mail.service');
 
 const requestService = {
@@ -108,7 +110,7 @@ const requestService = {
               sendEmail(newRequestTemplate(teamsEmail, result), (status) => {
                 res.status(201).json({ success: true, result });
               });
-              console.log(teamsEmail);
+              // console.log(teamsEmail);
             })
             .catch((error) =>
               res.status(500).json({
@@ -136,22 +138,71 @@ const requestService = {
     let newData = req.body;
     let final = {};
     Request.findById(req.params.id)
+      .populate('from', 'email')
       .then((requests) => {
         for (let key in newData) {
           if (newData[key] !== '') {
             final[key] = newData[key];
             if (key === 'assigned') {
-              sendEmail(
-                workAssignedTemplate(req.body.email, requests),
-                (status) => {
-                  console.log(status);
+              User.updateOne(
+                { email: req.body.email },
+                { busy: false },
+                (err, raw) => {
+                  if (err) console.log(err);
+                  sendEmail(
+                    workAssignedTemplate(req.body.email, requests),
+                    (status) => {
+                      console.log(status);
+                    },
+                  );
                 },
               );
+            } else if (key === 'status') {
+              // console.log(requests.from.email);
+              if (newData[key] === 'done') {
+                sendEmail(
+                  statusChangeDoneTemplate(requests.from.email, requests),
+                  (status) => {
+                    console.log(status);
+                  },
+                );
+              } else {
+                sendEmail(
+                  statusChangeTemplate(requests.from.email, requests),
+                  (status) => {
+                    console.log(status);
+                  },
+                );
+              }
             }
           }
         }
         Request.updateOne({ _id: req.params.id }, { $set: final })
-          .then((result) => res.status(200).json({ success: true, result }))
+          .then((result) => {
+            if (
+              final.status === 'done' ||
+              final.status === 'park' ||
+              final.status === 'hold'
+            ) {
+              User.updateOne(
+                { _id: requests.assignedId },
+                { busy: false },
+                (err, raw) => {
+                  if (err) console.log(err);
+                  res.status(200).json({ success: true, result });
+                },
+              );
+            } else {
+              User.updateOne(
+                { _id: requests.assignedId },
+                { busy: true },
+                (err, raw) => {
+                  if (err) console.log(err);
+                  res.status(200).json({ success: true, result });
+                },
+              );
+            }
+          })
           .catch((error) =>
             res.status(500).json({
               success: false,

@@ -120,17 +120,49 @@ const requestOutService = {
           if (newData[key] !== '') {
             final[key] = newData[key];
             if (key === 'assigned') {
-              sendEmail(
-                workAssignedTemplate(req.body.email, requests),
-                (status) => {
-                  console.log(status);
+              User.updateOne(
+                { email: req.body.email },
+                { busy: false },
+                (err, raw) => {
+                  if (err) console.log(err);
+                  sendEmail(
+                    workAssignedTemplate(req.body.email, requests),
+                    (status) => {
+                      console.log(status);
+                    },
+                  );
                 },
               );
             }
           }
         }
         RequestOut.updateOne({ _id: req.params.id }, { $set: final })
-          .then((result) => res.status(200).json({ success: true, result }))
+          .then((result) => {
+            if (
+              final.status === 'done' ||
+              final.status === 'park' ||
+              final.status === 'hold'
+            ) {
+              // console.log(final);
+              User.updateOne(
+                { _id: requests.assignedId },
+                { busy: false },
+                (err, raw) => {
+                  if (err) console.log(err);
+                  res.status(200).json({ success: true, result });
+                },
+              );
+            } else {
+              User.updateOne(
+                { _id: requests.assignedId },
+                { busy: true },
+                (err, raw) => {
+                  if (err) console.log(err);
+                  res.status(200).json({ success: true, result });
+                },
+              );
+            }
+          })
           .catch((error) =>
             res.status(500).json({
               success: false,

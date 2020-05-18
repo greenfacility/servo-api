@@ -40,6 +40,30 @@ const newRequestTemplate = (email, request) => {
   };
 };
 
+const statusChangeTemplate = (email, request) => {
+  return {
+    from: 'Noreply Sostein',
+    to: `${email}`,
+    subject: `Alert On The Job ${request.name}`,
+    html: `<p>This is to notify you about a work order you made and its new status is  <b>${request.status}</b> 
+						please kindly ignore this message if you have finished it.</p>
+						<p>Please log on to your account to check if you've done the work assigned to you. It has a description <b>${request.description}</b> </p>
+						<b>Thank You</b>`,
+  };
+};
+
+const statusChangeDoneTemplate = (email, request) => {
+  return {
+    from: 'Noreply Sostein',
+    to: `${email}`,
+    subject: `Alert On The Job ${request.name}`,
+    html: `<p>This is to notify you that your work order <b>${request.name}<b> is now done
+						please kindly log on to your account and rate us.</p>
+						<p>Please log on to your account to check if you've done the work assigned to you. It has a description <b>${request.description}</b> </p>
+						<b>Thank You</b>`,
+  };
+};
+
 const workAssignedTemplate = (email, request) => {
   return {
     from: 'No-Reply Sostein',
@@ -89,4 +113,6 @@ module.exports = {
   workAssignedTemplate,
   beforeScheduleTemplate,
   afterScheduleTemplate,
+  statusChangeTemplate,
+  statusChangeDoneTemplate,
 };
