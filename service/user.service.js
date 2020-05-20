@@ -233,7 +233,7 @@ const userService = {
             },
             jwtSecret,
             {
-              expiresIn: 3605,
+              expiresIn: 360000,
             },
             (err, token) => {
               if (err) throw err;
@@ -329,7 +329,9 @@ const userService = {
               final[key] = hash;
             });
           });
-        } else if (key !== 'usertype') {
+        } else if (key === 'usertype') {
+          // final[key] = newData[key];
+        } else {
           final[key] = newData[key];
         }
       }
@@ -341,10 +343,10 @@ const userService = {
           return res
             .status(404)
             .json({ success: false, message: 'User not found' });
-
-        User.updateOne({ _id: req.params.id }, { $set: final })
+        console.log(final, rslt);
+        User.updateOne({ _id: rslt._id }, { $set: final })
           .then((result) => {
-            console.log(final, result);
+            console.log(result);
             res.status(200).json({ success: true, result });
           })
           .catch((error) =>

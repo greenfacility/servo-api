@@ -1,74 +1,82 @@
-const mongoose = require('mongoose')
+const mongoose = require('mongoose');
 
 const RequestOutSchema = new mongoose.Schema({
   fullname: {
     type: String,
-    required: true
+    required: true,
   },
   email: {
     type: String,
-    required: true
+    required: true,
   },
   type: {
     type: String,
-    required: true
+    required: true,
   },
   picture: {
     type: String,
-    required: false
+    required: false,
   },
   property: {
     type: String,
-    required: true
+    required: true,
   },
   propertyId: {
     type: String,
-    required: true
+    required: true,
   },
   apartment: {
     type: String,
-    required: false
+    required: false,
   },
   phone: {
     type: Number,
-    required: true
+    required: true,
   },
   description: {
     type: String,
-    required: false
+    required: false,
   },
   status: {
     type: String,
-    default: 'pending'
+    default: 'pending',
   },
   timestart: {
     type: Date,
-    default: Date.now
+    default: Date.now,
   },
   rating: {
     type: Number,
-    default: 0
+    default: 0,
   },
   assigned: {
     type: String,
-    default: 'Unassigned'
+    default: 'Unassigned',
   },
   assignedId: {
     type: String,
-    default: 'Unassigned'
+    default: 'Unassigned',
   },
   priority: {
     type: String,
-    default: 'Unassigned'
+    default: 'Unassigned',
+  },
+  actual: {
+    type: Number,
+    default: 0,
+  },
+  fixed: {
+    type: Number,
+    default: 0,
   },
   timecompleted: {
-    type: Date
+    type: Date,
   },
   timescheduled: {
-    type: Date
-  }
-})
+    type: Date,
+  },
+});
 
-const RequestOut = mongoose.model('requestout', RequestOutSchema)
+const RequestOut = mongoose.model('requestout', RequestOutSchema);
 
-module.exports = RequestOut
+module.exports = RequestOut;

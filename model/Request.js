@@ -1,68 +1,76 @@
-const mongoose = require('mongoose')
+const mongoose = require('mongoose');
 
 const RequestSchema = new mongoose.Schema({
   name: {
     type: String,
-    required: true
+    required: true,
   },
   type: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'service',
-    required: true
+    required: true,
   },
   from: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'user',
-    required: true
+    required: true,
   },
   picture: {
     type: String,
-    required: false
+    required: false,
   },
   property: {
     type: String,
-    required: true
+    required: true,
   },
   propertyId: {
     type: String,
-    required: true
+    required: true,
   },
   description: {
     type: String,
-    required: true
+    required: true,
   },
   status: {
     type: String,
-    default: 'pending'
+    default: 'pending',
   },
   timestart: {
     type: Date,
-    default: Date.now
+    default: Date.now,
   },
   rating: {
     type: Number,
-    default: 0
+    default: 0,
   },
   assigned: {
     type: String,
-    default: 'Unassigned'
+    default: 'Unassigned',
   },
   assignedId: {
     type: String,
-    default: 'Unassigned'
+    default: 'Unassigned',
   },
   priority: {
     type: String,
-    default: 'Unassigned'
+    default: 'Unassigned',
+  },
+  actual: {
+    type: Number,
+    default: 0,
+  },
+  fixed: {
+    type: Number,
+    default: 0,
   },
   timecompleted: {
-    type: Date
+    type: Date,
   },
   timescheduled: {
-    type: Date
-  }
-})
+    type: Date,
+  },
+});
 
-const Request = mongoose.model('request', RequestSchema)
+const Request = mongoose.model('request', RequestSchema);
 
-module.exports = Request
+module.exports = Request;
