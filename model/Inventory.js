@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const EquipmentSchema = new mongoose.Schema(
+const InventorySchema = new mongoose.Schema(
   {
     name: {
       type: String,
@@ -10,7 +10,7 @@ const EquipmentSchema = new mongoose.Schema(
       type: Number,
       required: true,
     },
-    users: [
+    request: [
       {
         id: { type: mongoose.Schema.Types.ObjectId, ref: 'user' },
         number: { type: Number },
@@ -20,6 +20,6 @@ const EquipmentSchema = new mongoose.Schema(
   { timestamps: true },
 );
 
-const Equipment = mongoose.model('equipment', EquipmentSchema);
+const Inventory = mongoose.model('inventory', InventorySchema);
 
-module.exports = Equipment;
+module.exports = Inventory;

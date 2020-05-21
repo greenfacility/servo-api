@@ -16,6 +16,8 @@ const requestRoute = require('./routes/request.routes');
 const requestOutRoute = require('./routes/requestout.routes');
 const propertyRoute = require('./routes/property.routes');
 const locationRoute = require('./routes/location.routes');
+const equipmentRoute = require('./routes/equipment.routes');
+const inventoryRoute = require('./routes/inventory.routes');
 
 //MongoDB Options
 const db = require('./config/keys').MongoURI;
@@ -28,18 +30,6 @@ const option = {
 //Middle Wares
 /** For Cross Origin Resource Sharing (CORS)*/
 app.use(cors());
-// app.use((req, res, next) => {
-//   res.header('Access-Control-Allow-Origin', '*'); // update to match the domain you will make the request from
-//   res.header(
-//     'Access-Control-Allow-Headers',
-//     'Origin, X-Requested-With, Content-Type, Accept',
-//   );
-//   if (req.method === 'OPTIONS') {
-//     res.header('Access-Control-Allow-Methods', 'PUT, PATCH, GET, DELETE, POST');
-//     return res.status(200).json({});
-//   }
-//   next();
-// });
 
 app.use(bodyParser.json());
 
@@ -58,6 +48,8 @@ app.use('/api/request', requestRoute);
 app.use('/api/requestout', requestOutRoute);
 app.use('/api/property', propertyRoute);
 app.use('/api/location', locationRoute);
+app.use('/api/equipment', equipmentRoute);
+app.use('/api/inventory', inventoryRoute);
 
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'index.html'));

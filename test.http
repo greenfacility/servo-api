@@ -1,11 +1,22 @@
-GET http://localhost:3001/api/service HTTP/1.1
+# PUT http://localhost:3030/api/equipment/select/5ec57f57b50f29123beaa0f7 HTTP/1.1
+# PUT http://localhost:3030/api/equipment/submit/5ec57f57b50f29123beaa0f7/5ec5963869650716dd204e10 HTTP/1.1
+# GET http://localhost:3030/api/equipment HTTP/1.1
+# POST http://localhost:3030/api/equipment HTTP/1.1
+
+# GET http://localhost:3030/api/request/5ec1f7eb055f350ef89a9301 HTTP/1.1
+
+# GET http://localhost:3030/api/inventory HTTP/1.1
+# POST http://localhost:3030/api/inventory HTTP/1.1
+# PUT http://localhost:3030/api/inventory/select/5ec65b99bf0e8f0bcbb4f246 HTTP/1.1
+# PUT http://localhost:3030/api/inventory/submit/5ec65b99bf0e8f0bcbb4f246/5ec6612edf13e50dd115d9d6 HTTP/1.1
 content-type: application/json
-# Authorization: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVkZWFkNzUzNmYxN2Y1MGRkNGIyMGNlZiIsImlhdCI6MTU4ODQzNTIxNCwiZXhwIjoxNTg4NDM4ODE0fQ.BjdBnfCNm96Y1cIiSTrKHOEL4ufNnPZt4H-V7CANK9k"
-Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVkZWFkNzUzNmYxN2Y1MGRkNGIyMGNlZiIsImlhdCI6MTU4ODQ0NTM2OCwiZXhwIjoxNTg4NDQ4OTY4fQ.0q-IoczyMFzpKYDzxCs4sRs7J0a_Pac15XSSrdvjJPo
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVlYmMxYWI4NzEzOGZhMzllYjhiZGY1MSIsInVzZXJ0eXBlIjoibWFuYWdlciIsImlhdCI6MTU4OTk5NzUzNSwiZXhwIjoxNTkwMzU3NTM1fQ.vJ33z6qDG3ToCLOb3lvI7P9IOd4t-BDz-DUF5cBI_RQ
 
 {
-    "name": "Testing",
-    "type": "Electricity",
+    "name": "Bulb Yellow",
+    "available": 12,
+    "number": 2,
     "email": "demo@demo.com",
-    "password": "test"
+    "password": "test",
+    "lendID": "5ec5838a3dbe8212e5cdd570"
 }
