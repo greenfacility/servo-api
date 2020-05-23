@@ -10,6 +10,8 @@ const {
   statusChangeDoneTemplate,
 } = require('./mail.service');
 
+const agenda = require('../config/agenda');
+
 const requestService = {
   find: (req, res) => {
     Request.find({})
@@ -237,7 +239,13 @@ const requestService = {
           sendEmail(beforeScheduleTemplate(req.body.email, request));
 
           // Add scheduler here with newdate
-          sendEmail(afterScheduleTemplate(req.body.email, request, date));
+
+          agenda.schedule(newdate, 'schedule request mail', {
+            to: req.body.email,
+            request,
+            date,
+          });
+          // sendEmail(afterScheduleTemplate(req.body.email, request, date));
 
           res.status(200).json({
             success: true,

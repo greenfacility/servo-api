@@ -3,10 +3,12 @@ const User = require('../model/User');
 const {
   sendEmail,
   newRequestTemplate,
-  workAssignedTemplate,
-  beforeScheduleTemplate,
-  afterScheduleTemplate,
+  workOutAssignedTemplate,
+  beforeOutScheduleTemplate,
+  afterOutScheduleTemplate,
 } = require('./mail.service');
+
+const agenda = require('../config/agenda');
 
 const requestOutService = {
   find: (req, res) => {
@@ -126,7 +128,7 @@ const requestOutService = {
                 (err, raw) => {
                   if (err) console.log(err);
                   sendEmail(
-                    workAssignedTemplate(req.body.email, requests),
+                    workOutAssignedTemplate(req.body.email, requests),
                     (status) => {
                       console.log(status);
                     },
@@ -194,10 +196,15 @@ const requestOutService = {
     RequestOut.update({ _id: req.params.id }, { $set: { timescheduled } })
       .then((reslt) => {
         RequestOut.findById(req.params.id).then((request) => {
-          sendEmail(beforeScheduleTemplate(req.body.email, request));
+          sendEmail(beforeOutScheduleTemplate(req.body.email, request));
 
+          agenda.schedule(newdate, 'schedule outrequest mail', {
+            to: req.body.email,
+            request,
+            date,
+          });
           // Add scheduler here with newdate
-          sendEmail(afterScheduleTemplate(req.body.email, request, date));
+          // sendEmail(afterScheduleTemplate(req.body.email, request, date));
 
           res.status(200).json({
             success: true,
