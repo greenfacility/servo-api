@@ -1,5 +1,6 @@
 const nodemailer = require('nodemailer');
 const HOST = process.env.HOST || 'http://localhost:3000';
+const from = process.env.EMAIL_FROM || 'noreply.sostein@gmail.com';
 
 const transporter = nodemailer.createTransport({
   host: process.env.EMAIL_HOST || 'smtp.gmail.com',
@@ -13,7 +14,7 @@ const transporter = nodemailer.createTransport({
 
 const changePasswordTemplate = (email, token) => {
   return {
-    from: 'Noreply Servo',
+    from,
     to: `${email}`,
     subject: 'Link To Change Password From SERVO',
     html: `<div style='font-size: 16px;' >
@@ -31,7 +32,7 @@ const changePasswordTemplate = (email, token) => {
 
 const newRequestTemplate = (email, request) => {
   return {
-    from: 'Noreply Servo',
+    from,
     to: `${email}`,
     subject: `Alert On The Job ${request.name}`,
     html: `
@@ -46,7 +47,7 @@ const newRequestTemplate = (email, request) => {
 
 const newOutRequestTemplate = (email, request) => {
   return {
-    from: 'Noreply Servo',
+    from,
     to: `${email}`,
     subject: `Alert On The Job ${request.fullname}`,
     html: `
@@ -61,7 +62,7 @@ const newOutRequestTemplate = (email, request) => {
 
 const statusChangeTemplate = (email, request) => {
   return {
-    from: 'Noreply Servo',
+    from,
     to: `${email}`,
     subject: `Alert On The Job ${request.name}`,
     html: `
@@ -76,7 +77,7 @@ const statusChangeTemplate = (email, request) => {
 
 const statusChangeDoneTemplate = (email, request) => {
   return {
-    from: 'Noreply Servo',
+    from,
     to: `${email}`,
     subject: `Alert On The Job ${request.name}`,
     html: `<div style='font-size: 16px;' >
@@ -90,7 +91,7 @@ const statusChangeDoneTemplate = (email, request) => {
 
 const workAssignedTemplate = (email, request) => {
   return {
-    from: 'No-Reply Servo',
+    from,
     to: `${email}`,
     subject: `Alert: A Work Order with Name "${request.name}"`,
     html: `<div style='font-size: 16px;' >
@@ -102,7 +103,7 @@ const workAssignedTemplate = (email, request) => {
 
 const workOutAssignedTemplate = (email, request) => {
   return {
-    from: 'No-Reply Servo',
+    from,
     to: `${email}`,
     subject: `Alert: A Work Order with Name "${request.fullname}"`,
     html: `<div style='font-size: 16px;' >
@@ -114,7 +115,7 @@ const workOutAssignedTemplate = (email, request) => {
 
 const beforeScheduleTemplate = (email, request) => {
   return {
-    from: 'Noreply Servo',
+    from,
     to: `${email}`,
     subject: `Alert On The Job ${request.name}`,
     html: `
@@ -129,7 +130,7 @@ const beforeScheduleTemplate = (email, request) => {
 
 const afterScheduleTemplate = (email, request, date) => {
   return {
-    from: 'Noreply Servo',
+    from,
     to: `${email}`,
     subject: `Alert On The Job ${request.name}`,
     html: `<div style='font-size: 16px;' >
@@ -143,7 +144,7 @@ const afterScheduleTemplate = (email, request, date) => {
 
 const beforeOutScheduleTemplate = (email, request) => {
   return {
-    from: 'Noreply Servo',
+    from,
     to: `${email}`,
     subject: `Alert On The Job From ${request.fullname}`,
     html: `<div style='font-size: 16px;' >
@@ -157,7 +158,7 @@ const beforeOutScheduleTemplate = (email, request) => {
 
 const afterOutScheduleTemplate = (email, request, date) => {
   return {
-    from: 'Noreply Servo',
+    from,
     to: `${email}`,
     subject: `Alert On The Job From ${request.fullname}`,
     html: `<div style='font-size: 16px;' >
