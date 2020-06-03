@@ -41,7 +41,7 @@ const changePasswordTemplate = (email, token) => {
 			<a href='${HOST}/reset?token=${token}' style='padding: 8px; decoration: none; background: brown; color: white;'>
 			Reset Password</a>
 			<p>${HOST}/reset?token=${token} If you did not request for this, kindly ignore
-      this message and your password will remain unchanged 
+      this message and your password will remain unchanged and log on www.sostein.com
       or contact the service/technical provider at odbstech@gmail.com for enquiry 24/7</p>
       <b>Thank you<b><br>
       <b>SERVO Management<b>
@@ -58,8 +58,9 @@ const newRequestTemplate = (email, request) => {
           <div style='font-size: 16px;' >
           <p>This is to notify you about a new unassigned work order you can accept to work on.
 						please kindly ignore this message if you are busy.</p>
-            <p>Please log on to your account to check it out. It has a description <b>${request.description}</b> </p>
-            contact the service/technical provider at odbstech@gmail.com for enquiry 24/7<br>
+            <p>Please log on to your account to check it out. It has a description <b>${request.description}</b>
+            with request number <b>${request.serial}</b>  on www.sostein.com </p>
+            Contact the service/technical provider at odbstech@gmail.com for enquiry 24/7<br>
             <b>Thank You</br><br>
             <b>SERVO Management<b>
             </div>`,
@@ -75,8 +76,9 @@ const newOutRequestTemplate = (email, request) => {
           <div style='font-size: 16px;' >
           <p>This is to notify you about a new unassigned outsider work order you can accept to work on.
 						please kindly ignore this message if you are busy.</p>
-            <p>Please log on to your account to check it out. It has a description <b>${request.description}</b> </p>
-            contact the service/technical provider at odbstech@gmail.com for enquiry 24/7<br>
+            <p>Please log on to your account to check it out. It has a description <b>${request.description}</b> 
+            with request number <b>${request.serial}</b> on www.sostein.com </p>
+            Contact the service/technical provider at odbstech@gmail.com for enquiry 24/7<br>
             <b>Thank You</br><br>
             <b>SERVO Management<b>
             </div>`,
@@ -92,8 +94,9 @@ const statusChangeTemplate = (email, request) => {
           <div style='font-size: 16px;' >
           <p>This is to notify you about a work order made and its new status is  <b>${request.status}</b> 
 						please kindly ignore this message if the request has has been done.</p>
-            <p>Please log on to your account to check if you've done the work assigned to you. It has a description <b>${request.description}</b> </p>
-            contact the service/technical provider at odbstech@gmail.com for enquiry 24/7<br>
+            <p>Please log on to your account on www.sostein.com 
+            to check if you've done the work assigned to you. It has a description <b>${request.description}</b> </p>
+            Contact the service/technical provider at odbstech@gmail.com for enquiry 24/7<br>
             <b>Thank You</br><br>
             <b>SERVO Management<b>
             </div>`,
@@ -108,9 +111,9 @@ const statusChangeDoneTemplate = (email, request) => {
         html: `<div style='font-size: 16px;' >
             <p>This is to notify you that your work order <b>${request.name}<b> 
             that has a description <b>${request.description}</b> is now done
-						kindly log on to your account and rate our service.</p>
-            <p>Please check if your work order has been done.</p>
-            contact the service/technical provider at odbstech@gmail.com for enquiry 24/7<br>
+						kindly log on to your account on www.sostein.com and rate our service.</p>
+            <p>kindly check if your work order has been done.</p>
+            Contact the service/technical provider at odbstech@gmail.com for enquiry 24/7<br>
             <b>Thank You</br><br>
             <b>SERVO Management<b>
             <div>`,
@@ -124,8 +127,8 @@ const workAssignedTemplate = (email, request) => {
         subject: `Alert: an Assign Work Order with Name "${request.name}"`,
         html: `<div style='font-size: 16px;' >
               <p>This is to notify you about a work order that is been assigned to you.</p>
-              <p>It has a description <b>${request.description}</b> 
-              Kindly login to your account to check and set the schedule time to finish the reqest.</p>
+              <p>It has a description <b>${request.description}</b> with work order number <b>${request.serial}</b>
+              Kindly login to your account to check and set the schedule time to finish the reqest on www.sostein.com .</p>
               contact the service/technical provider at odbstech@gmail.com for enquiry 24/7<br>
               <b>Thank You</br><br>
               <b>SERVO Management<b>
@@ -140,8 +143,8 @@ const workOutAssignedTemplate = (email, request) => {
         subject: `Alert: an Assing Work Order with Name "${request.fullname}"`,
         html: `<div style='font-size: 16px;' >
               <p>This is to notify you about a work order been assigned to you.</p>
-              <p>It has a description <b>${request.description}</b> 
-              Kindly login to your account to check and set the schedule time to finish the request.</p>
+              <p>It has a description <b>${request.description}</b> with work order number <b>${request.serial}</b>
+              Kindly login to your account to check and set the schedule time to finish the request on www.sostein.com .</p>
               contact the service/technical provider at odbstech@gmail.com for enquiry 24/7<br>
               <b>Thank You</br><br>
               <b>SERVO Management<b>
@@ -159,7 +162,8 @@ const beforeScheduleTemplate = (email, request) => {
             <p>This is to notify you about a work order you are to finish within some hours
 						please kindly ignore this message if you have finished it.</p>
             <p>Please log on to your account to check if you've done the work assigned to you.
-             It has a description <b>${request.description}</b> </p>
+             It has a description <b>${request.description}</b> and work order number <b>${request.serial}</b>
+             Kindly log on to your account on www.sostein.com </p>
              contact the service/technical provider at odbstech@gmail.com for enquiry 24/7<br>
             <b>Thank You</br><br>
             <b>SERVO Management<b>
@@ -174,7 +178,8 @@ const afterScheduleTemplate = (email, request, date) => {
         subject: `Alert On Job Scheduled ${request.name}`,
         html: `<div style='font-size: 16px;' >
               <p>This is to notify you about a work order you just scheduled for ${date.toDateString()}.</p>
-              <p>It has a description <b>${request.description}</b></p>
+              <p>It has a description <b>${request.description}</b> with work order number <b>${request.serial}</b> 
+              log on www.sostein.com </p>
               contact the service/technical provider at odbstech@gmail.com for enquiry 24/7<br>
               <b>Thank You</br><br>
               <b>SERVO Management<b>
@@ -191,7 +196,7 @@ const beforeOutScheduleTemplate = (email, request) => {
             <p>This is to notify you about an outsider work order you are to finish within some hours
 						please kindly ignore this message if you have finished it.</p>
             <p>Please log on to your account to check if you've done the work assigned to you. 
-            It has a description <b>${request.description}</b> </p>
+            It has a description <b>${request.description}</b> and log on www.sostein.com </p>
             contact the service/technical provider at odbstech@gmail.com for enquiry 24/7<br>
             <b>Thank You</br><br>
             <b>SERVO Management<b>
@@ -206,7 +211,7 @@ const afterOutScheduleTemplate = (email, request, date) => {
         subject: `Alert On Job From ${request.fullname}`,
         html: `<div style='font-size: 16px;' >
               <p>This is to notify you about a work order you just scheduled for ${date.toDateString()}.</p>
-              <p>It has a description <b>${request.description}</b></p>
+              <p>It has a description <b>${request.description}</b> and log on www.sostein.com</p>
                 contact the service/technical provider at odbstech@gmail.com for enquiry 24/7<br>
                 <b>Thank You</br><br>
               <b>SERVO Management<b>
@@ -223,8 +228,8 @@ const inventoryUpdateTemplate = (email, inventory) => {
         <div style='font-size: 16px;' >
         <p>This is to notify you about an inventory <b>${inventory.name}</b> 
         is getting low and its new status is 
-        <b>${inventory.available}</b> 
-          <p>Kindly log on to your account to update the inventory.</p>
+        <b>${inventory.available}</b> with serial number <b>${inventory.serial}</b>
+          <p>Kindly log on to your account to update the inventory on www.sostein.com </p>
           contact the service/technical provider at odbstech@gmail.com for enquiry 24/7<br>
           <b>Thank You</br><br>
           <b>SERVO Management<b>
