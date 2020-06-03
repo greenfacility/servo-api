@@ -38,7 +38,7 @@ const InventoryService = {
       .sort({ createdAt: -1 })
       .then((invs) => {
         let length = invs.length;
-        let serial = invs[0].serial + 1 || length;
+        let serial = invs[0].serial + 1 || length + 1;
         if (name && available) {
           var newInventory = new Inventory({
             serial,

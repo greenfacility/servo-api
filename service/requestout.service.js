@@ -79,7 +79,7 @@ const requestOutService = {
             .sort({ timestart: -1 })
             .then((reqs) => {
               let length = reqs.length;
-              let serial = reqs[0].serial + 1 || length;
+              let serial = reqs[0].serial + 1 || length + 1;
               var newRequest = new RequestOut({
                 serial,
                 fullname,

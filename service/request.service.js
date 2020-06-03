@@ -101,7 +101,7 @@ const requestService = {
               });
               // console.log(teamsEmail);
               let length = reqs.length;
-              let serial = reqs[0].serial + 1 || length;
+              let serial = reqs[0].serial + 1 || length + 1;
               var newRequest = new Request({
                 serial,
                 name,
