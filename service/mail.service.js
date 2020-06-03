@@ -186,6 +186,18 @@ const afterOutScheduleTemplate = (email, request, date) => {
   };
 };
 
+const inventoryUpdateTemplate = (email, inventory) => {
+  return {
+    from,
+    to: `${email}`,
+    subject: `Inventory With Name ${inventory.name} Need To Be Updated`,
+    html: `<div style='font-size: 16px;' >
+              <p>This is to notify you about an inventory ${inventory.name} which now remains less than 5 (five) or remains 5.</p>
+              <pPlease update it</p><b>Thank You</b>
+              </div>`,
+  };
+};
+
 const sendEmail = (mailTemplate, cb) => {
   transporter.sendMail(mailTemplate, (err, response) => {
     console.log(nodemailer.getTestMessageUrl(response), response);
@@ -210,4 +222,5 @@ module.exports = {
   afterOutScheduleTemplate,
   statusChangeTemplate,
   statusChangeDoneTemplate,
+  inventoryUpdateTemplate,
 };

@@ -1,4 +1,5 @@
 const Inventory = require('../model/Inventory');
+const { sendEmail, inventoryUpdateTemplate } = require('./mail.service');
 
 const InventoryService = {
   get: (req, res) => {
@@ -33,29 +34,42 @@ const InventoryService = {
 
   create: (req, res) => {
     var { name, available } = req.body;
+    Inventory.find({})
+      .sort({ createdAt: -1 })
+      .then((invs) => {
+        let length = invs.length;
+        let serial = invs[0].serial + 1 || length;
+        if (name && available) {
+          var newInventory = new Inventory({
+            serial,
+            name,
+            available,
+          });
 
-    if (name && available) {
-      var newInventory = new Inventory({
-        name,
-        available,
-      });
-
-      newInventory
-        .save()
-        .then((data) => res.json({ success: true, result: data }))
-        .catch((error) =>
+          newInventory
+            .save()
+            .then((data) => res.json({ success: true, result: data }))
+            .catch((error) =>
+              res.status(500).json({
+                success: false,
+                message: "Can't create new inventory",
+                error,
+              }),
+            );
+        } else {
           res.status(500).json({
             success: false,
-            message: "Can't create new inventory",
-            error,
-          }),
-        );
-    } else {
-      res.status(500).json({
-        success: false,
-        message: 'Please enter all required field!',
-      });
-    }
+            message: 'Please enter all required field!',
+          });
+        }
+      })
+      .catch((error) =>
+        res.status(500).json({
+          success: false,
+          message: "Can't create new inventory",
+          error,
+        }),
+      );
   },
 
   delete: (req, res) => {
@@ -91,41 +105,69 @@ const InventoryService = {
 
   select: (req, res) => {
     const { number } = req.body;
+    const userTypes = ['manager', 'technician'];
     if (
       req.user.usertype === 'manager' ||
       req.user.usertype === 'technician' ||
       req.user.usertype === 'team-member'
     ) {
-      Inventory.findById(req.params.id)
-        .then((rslt) => {
-          let available = rslt.available - number;
-          let request = { id: req.user.id, number };
-          let final = { available };
-          if (available < 0) {
-            res.status(400).json({
-              success: false,
-              message:
-                'Total inventory requred is more than available inventory',
-            });
-          } else {
-            Inventory.updateOne(
-              { _id: req.params.id },
-              { $push: { request }, $set: final },
-            )
-              .then((result) => res.status(200).json({ success: true, result }))
-              .catch((error) =>
-                res.status(500).json({
+      User.find({ usertype: { $in: userTypes } })
+        .then((teams) => {
+          //   console.log(teams);
+          let teamsEmail = [];
+          teams.forEach((element) => {
+            teamsEmail.push(element.email);
+          });
+          Inventory.findById(req.params.id)
+            .then((rslt) => {
+              let available = rslt.available - number;
+              let request = { id: req.user.id, number };
+              let final = { available };
+              if (available <= 5) {
+                // You can send email here
+                teamsEmail.forEach((mail, i) => {
+                  sendEmail(inventoryUpdateTemplate(mail, rslt), (status) => {
+                    console.log(status);
+                  });
+                });
+              }
+              if (available < 0) {
+                res.status(400).json({
                   success: false,
-                  message: 'Unable to change data',
-                  error,
-                }),
-              );
-          }
+                  message:
+                    'Total inventory requred is more than available inventory',
+                });
+              } else {
+                Inventory.updateOne(
+                  { _id: req.params.id },
+                  { $push: { request }, $set: final },
+                )
+                  .then((result) =>
+                    res.status(200).json({ success: true, result }),
+                  )
+                  .catch((error) =>
+                    res.status(500).json({
+                      success: false,
+                      message: 'Unable to change data',
+                      error,
+                    }),
+                  );
+              }
+            })
+            .catch((error) =>
+              res.status(500).json({
+                success: false,
+                message: 'Unable to change data',
+                error,
+              }),
+            );
         })
         .catch((error) =>
-          res
-            .status(500)
-            .json({ success: false, message: 'Unable to change data', error }),
+          res.status(500).json({
+            success: false,
+            message: 'Unable to change data',
+            error,
+          }),
         );
     } else {
       res
