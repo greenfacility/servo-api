@@ -95,12 +95,12 @@ const requestOutService = {
               newRequest
                 .save()
                 .then((result) => {
-                  sendEmail(
-                    newRequestTemplate(teamsEmail, result),
-                    (status) => {
-                      res.status(201).json({ success: true, result });
-                    },
-                  );
+                  teamsEmail.forEach((mail, i) => {
+                    sendEmail(newRequestTemplate(mail, result), (status) => {
+                      console.log(status);
+                    });
+                  });
+                  res.status(201).json({ success: true, result });
                 })
                 .catch((error) =>
                   res.status(500).json({
