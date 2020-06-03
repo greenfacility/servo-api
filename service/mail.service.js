@@ -1,16 +1,32 @@
 const nodemailer = require('nodemailer');
 const HOST = process.env.HOST || 'http://localhost:3000';
-const from = process.env.EMAIL_FROM || 'noreply.sostein@gmail.com';
+const from = process.env.EMAIL_FROM || 'addymailtest@gmail.com';
 
-const transporter = nodemailer.createTransport({
-  host: process.env.EMAIL_HOST || 'smtp.gmail.com',
-  port: process.env.EMAIL_PORT || 465,
-  secure: true,
-  auth: {
-    user: process.env.EMAIL_ADDRESS || 'noreply.sostein@gmail.com',
-    pass: process.env.EMAIL_PASSWORD || 'greenfacility',
-  },
-});
+var mailConfig;
+if (process.env.NODE_ENV === 'production') {
+  // all emails are delivered to destination
+  mailConfig = {
+    host: process.env.EMAIL_HOST || 'smtp.gmail.com',
+    port: process.env.EMAIL_PORT || 465,
+    secure: true,
+    auth: {
+      user: process.env.EMAIL_ADDRESS || 'addymailtest@gmail.com',
+      pass: process.env.EMAIL_PASSWORD || 'adeshile',
+    },
+  };
+} else {
+  // all emails are catched by ethereal.email
+  mailConfig = {
+    host: 'smtp.ethereal.email',
+    port: 587,
+    auth: {
+      user: 'ethereal.user@ethereal.email',
+      pass: 'verysecret',
+    },
+  };
+}
+
+const transporter = nodemailer.createTransport(mailConfig);
 
 const changePasswordTemplate = (email, token) => {
   return {
@@ -172,6 +188,7 @@ const afterOutScheduleTemplate = (email, request, date) => {
 
 const sendEmail = (mailTemplate, cb) => {
   transporter.sendMail(mailTemplate, (err, response) => {
+    console.log(nodemailer.getTestMessageUrl(response), response);
     if (err) {
       cb(false);
     } else {

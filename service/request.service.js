@@ -87,32 +87,49 @@ const requestService = {
     } = req.body;
     if (name && type && from && description && property && propertyId) {
       const userTypes = ['manager', 'team-member', 'technician'];
-      User.find({ usertype: { $in: userTypes } })
-        .then((teams) => {
-          //   console.log(teams);
-          let teamsEmail = [];
-          teams.forEach((element) => {
-            if (!element.busy) {
-              teamsEmail.push(element.email);
-            }
-          });
-
-          var newRequest = new Request({
-            name,
-            type,
-            from,
-            description,
-            picture,
-            property,
-            propertyId,
-          });
-          newRequest
-            .save()
-            .then((result) => {
-              sendEmail(newRequestTemplate(teamsEmail, result), (status) => {
-                res.status(201).json({ success: true, result });
+      Request.find({})
+        .sort({ timestart: -1 })
+        .then((reqs) => {
+          User.find({ usertype: { $in: userTypes } })
+            .then((teams) => {
+              //   console.log(teams);
+              let teamsEmail = [];
+              teams.forEach((element) => {
+                if (!element.busy) {
+                  teamsEmail.push(element.email);
+                }
               });
               // console.log(teamsEmail);
+              let length = reqs.length;
+              let serial = reqs[0].serial + 1 || length;
+              var newRequest = new Request({
+                serial,
+                name,
+                type,
+                from,
+                description,
+                picture,
+                property,
+                propertyId,
+              });
+              newRequest
+                .save()
+                .then((result) => {
+                  sendEmail(
+                    newRequestTemplate(teamsEmail, result),
+                    (status) => {
+                      res.status(201).json({ success: true, result });
+                    },
+                  );
+                  // console.log(teamsEmail);
+                })
+                .catch((error) =>
+                  res.status(500).json({
+                    success: false,
+                    message: "Sorry, can't add new request now",
+                    error,
+                  }),
+                );
             })
             .catch((error) =>
               res.status(500).json({

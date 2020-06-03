@@ -173,7 +173,7 @@ const userService = {
                 },
                 jwtSecret,
                 {
-                  expiresIn: 360000,
+                  expiresIn: 36000000000,
                 },
                 (err, token) => {
                   if (err) throw err;
@@ -233,7 +233,7 @@ const userService = {
             },
             jwtSecret,
             {
-              expiresIn: 360000,
+              expiresIn: 36000000000,
             },
             (err, token) => {
               if (err) throw err;

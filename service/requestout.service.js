@@ -75,23 +75,39 @@ const requestOutService = {
             }
           });
 
-          var newRequest = new RequestOut({
-            apartment,
-            description,
-            email,
-            property,
-            propertyId,
-            fullname,
-            phone,
-            picture,
-            type,
-          });
-          newRequest
-            .save()
-            .then((result) => {
-              sendEmail(newRequestTemplate(teamsEmail, result), (status) => {
-                res.status(201).json({ success: true, result });
+          RequestOut.find({})
+            .sort({ timestart: -1 })
+            .then((reqs) => {
+              let length = reqs.length;
+              let serial = reqs[0].serial + 1 || length;
+              var newRequest = new RequestOut({
+                serial,
+                fullname,
+                email,
+                phone,
+                apartment,
+                type,
+                description,
+                property,
+                propertyId,
+                picture,
               });
+              newRequest
+                .save()
+                .then((result) => {
+                  sendEmail(
+                    newRequestTemplate(teamsEmail, result),
+                    (status) => {
+                      res.status(201).json({ success: true, result });
+                    },
+                  );
+                })
+                .catch((error) =>
+                  res.status(500).json({
+                    success: false,
+                    message: "Sorry, can't add new request now",
+                  }),
+                );
             })
             .catch((error) =>
               res.status(500).json({

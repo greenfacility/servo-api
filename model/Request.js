@@ -1,6 +1,10 @@
 const mongoose = require('mongoose');
 
 const RequestSchema = new mongoose.Schema({
+  serial: {
+    type: Number,
+    required: true,
+  },
   name: {
     type: String,
     required: true,
