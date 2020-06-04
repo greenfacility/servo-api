@@ -61,13 +61,14 @@ const InventoryService = {
           newInventory
             .save()
             .then((data) => res.json({ success: true, result: data }))
-            .catch((error) =>
+            .catch((error) => {
+              console.log(error);
               res.status(500).json({
                 success: false,
                 message: "Can't create new inventory",
                 error,
-              }),
-            );
+              });
+            });
         } else {
           res.status(500).json({
             success: false,
@@ -75,13 +76,14 @@ const InventoryService = {
           });
         }
       })
-      .catch((error) =>
+      .catch((error) => {
+        console.log(error);
         res.status(500).json({
           success: false,
-          message: "Can't create new inventory",
+          message: "Can't create new inventory!",
           error,
-        }),
-      );
+        });
+      });
   },
 
   delete: (req, res) => {
