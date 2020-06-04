@@ -201,20 +201,29 @@ const requestOutService = {
   putSchedule: (req, res) => {
     const timescheduled = req.body.timescheduled;
     let date = new Date(timescheduled);
-    let newdate = new Date(date.getTime() - 6000000);
+
+    if (date.getTime() < Date.now())
+      return res
+        .status(400)
+        .json({ success: false, message: `Schedule can't be set to past` });
 
     //Call the function to schedule email sending
     if (timescheduled === '' || typeof timescheduled === 'undefined')
       return res
         .status(400)
-        .json({ success: false, msg: 'No time is scheduled' });
+        .json({ success: false, message: 'No time is scheduled' });
 
     RequestOut.update({ _id: req.params.id }, { $set: { timescheduled } })
       .then((reslt) => {
         RequestOut.findById(req.params.id).then((request) => {
-          sendEmail(beforeOutScheduleTemplate(req.body.email, request));
+          sendEmail(
+            beforeOutScheduleTemplate(req.body.email, request),
+            (status) => {
+              console.log(status);
+            },
+          );
 
-          agenda.schedule(newdate, 'schedule outrequest mail', {
+          agenda.schedule(date.toLocaleString(), 'schedule outrequest mail', {
             to: req.body.email,
             request,
             date,
