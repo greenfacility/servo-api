@@ -6,11 +6,23 @@ const InventorySchema = new mongoose.Schema(
       type: Number,
       required: true,
     },
+    description: {
+      type: String,
+      required: true,
+    },
     name: {
       type: String,
       required: true,
     },
+    used: {
+      type: Number,
+      default: 0,
+    },
     available: {
+      type: Number,
+      required: true,
+    },
+    all: {
       type: Number,
       required: true,
     },

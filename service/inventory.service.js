@@ -1,4 +1,5 @@
 const Inventory = require('../model/Inventory');
+const User = require('../model/User');
 const { sendEmail, inventoryUpdateTemplate } = require('./mail.service');
 
 const InventoryService = {
@@ -6,7 +7,14 @@ const InventoryService = {
     Inventory.find({})
       .populate('request.id', 'usertype firstname lastname email')
       .select('-__v')
-      .then((result) => res.status(200).json({ success: true, result }))
+      .sort({ createdAt: -1 })
+      .then((data) => {
+        var result = data.map((rslt) => {
+          rslt.all = rslt.available + rslt.used;
+          return rslt;
+        });
+        res.status(200).json({ success: true, result });
+      })
       .catch((error) =>
         res
           .status(500)
@@ -23,6 +31,8 @@ const InventoryService = {
           return res
             .status(404)
             .json({ success: false, message: 'Inventory not found' });
+
+        result.all = result.available + result.used;
         res.status(200).json({ success: true, result });
       })
       .catch((error) =>
@@ -33,17 +43,19 @@ const InventoryService = {
   },
 
   create: (req, res) => {
-    var { name, available } = req.body;
+    var { name, available, description } = req.body;
     Inventory.find({})
       .sort({ createdAt: -1 })
       .then((invs) => {
         let length = invs.length;
         let serial = invs[0].serial + 1 || length + 1;
-        if (name && available) {
+        if (name && available && description) {
           var newInventory = new Inventory({
             serial,
             name,
+            description,
             available,
+            all: available,
           });
 
           newInventory
@@ -89,7 +101,7 @@ const InventoryService = {
     let final = {};
     for (let key in newData) {
       if (newData[key] !== '') {
-        if (key === 'name' || key === 'available') {
+        if (key === 'name' || key === 'available' || key === 'description') {
           final[key] = newData[key];
         }
       }
@@ -121,8 +133,9 @@ const InventoryService = {
           Inventory.findById(req.params.id)
             .then((rslt) => {
               let available = rslt.available - number;
+              let used = rslt.used + number;
               let request = { id: req.user.id, number };
-              let final = { available };
+              let final = { available, used };
               if (available <= 5) {
                 // You can send email here
                 teamsEmail.forEach((mail, i) => {
@@ -195,7 +208,8 @@ const InventoryService = {
               message: 'Inventory return record not found',
             });
           let available = rslt.available + user.number;
-          let final = { available, request };
+          let used = rslt.used - user.number;
+          let final = { available, request, used };
           // console.log(user, req.params.lendId, rslt.available, users);
           Inventory.updateOne({ _id: req.params.id }, { $set: final })
             .then((result) => res.status(200).json({ success: true, result }))
