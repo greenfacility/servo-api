@@ -18,6 +18,7 @@ const propertyRoute = require('./routes/property.routes');
 const locationRoute = require('./routes/location.routes');
 const equipmentRoute = require('./routes/equipment.routes');
 const inventoryRoute = require('./routes/inventory.routes');
+const inspectionRoute = require('./routes/inspection.routes');
 
 //MongoDB Options
 const db = require('./config/keys').MongoURI;
@@ -50,6 +51,7 @@ app.use('/api/property', propertyRoute);
 app.use('/api/location', locationRoute);
 app.use('/api/equipment', equipmentRoute);
 app.use('/api/inventory', inventoryRoute);
+app.use('/api/inspection', inspectionRoute),
 
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'index.html'));
