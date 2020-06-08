@@ -122,10 +122,11 @@ const InventoryService = {
 
   select: (req, res) => {
     const { number } = req.body;
-    const userTypes = ['manager', 'technician'];
+    const userTypes = ['manager', 'technician', 'procurement'];
     if (
       req.user.usertype === 'manager' ||
       req.user.usertype === 'technician' ||
+      req.user.usertype === 'procurement' ||
       req.user.usertype === 'team-member'
     ) {
       User.find({ usertype: { $in: userTypes } })
@@ -198,6 +199,7 @@ const InventoryService = {
     if (
       req.user.usertype === 'manager' ||
       req.user.usertype === 'technician' ||
+      req.user.usertype === 'procurement' ||
       req.user.usertype === 'team-member'
     ) {
       Inventory.findById(req.params.id)

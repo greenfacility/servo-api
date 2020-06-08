@@ -64,7 +64,7 @@ const requestOutService = {
       type,
     } = req.body;
     if (email && property && propertyId && fullname && phone && type) {
-      const userTypes = ['manager', 'team-member', 'technician'];
+      const userTypes = ['manager', 'team-member', 'technician', 'procurement'];
       User.find({ usertype: { $in: userTypes } })
         .then((teams) => {
           //   console.log(teams);

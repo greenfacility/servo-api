@@ -8,7 +8,7 @@ const InspectionService = {
       .catch((error) =>
         res
           .status(500)
-          .json({ success: false, message: `Can't get inventorys`, error }),
+          .json({ success: false, message: `Can't get inspections`, error }),
       );
   },
 
@@ -17,7 +17,7 @@ const InspectionService = {
       .catch((error) =>
         res
           .status(500)
-          .json({ success: false, message: `Can't get inventory`, error }),
+          .json({ success: false, message: `Can't get inspection`, error }),
       );
   },
 

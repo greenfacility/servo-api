@@ -128,6 +128,7 @@ const EquipmentService = {
     if (
       req.user.usertype === 'manager' ||
       req.user.usertype === 'technician' ||
+      req.user.usertype === 'procurement' ||
       req.user.usertype === 'team-member'
     ) {
       Equipment.findById(req.params.id)

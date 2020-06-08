@@ -86,7 +86,7 @@ const requestService = {
       propertyId,
     } = req.body;
     if (name && type && from && description && property && propertyId) {
-      const userTypes = ['manager', 'team-member', 'technician'];
+      const userTypes = ['manager', 'team-member', 'technician', 'procurement'];
       Request.find({})
         .sort({ timestart: -1 })
         .then((reqs) => {
