@@ -1,10 +1,12 @@
 const Inspection = require('../model/Inspection');
+const User = require('../model/User');
 const { sendEmail, inspectionUpdateTemplate } = require('./mail.service');
 
 const InspectionService = {
   get: (req, res) => {
     Inspection.find({})
       .sort({ createdAt: -1 })
+      .then((result) => res.status(200).json({ success: true, result }))
       .catch((error) =>
         res
           .status(500)
@@ -14,6 +16,14 @@ const InspectionService = {
 
   getOne: (req, res) => {
     Inspection.findById(req.params.id)
+    .then((result) => {
+      if (!result)
+        return res
+          .status(404)
+          .json({ success: false, message: 'Inspection not found' });
+
+      res.status(200).json({ success: true, result });
+    })
       .catch((error) =>
         res
           .status(500)
@@ -54,7 +64,14 @@ const InspectionService = {
 
             newInspection
             .save()
-            .then((data) => res.json({ success: true, result: data }))
+            .then((result) => 
+            {
+              teamsEmail.forEach((mail, i) => {
+                sendEmail(newInspectionTemplate(mail, result), 
+                );
+              });
+            res.json({ success: true, result: data })
+            })
             .catch((error) => {
               console.log(error);
               res.status(500).json({
