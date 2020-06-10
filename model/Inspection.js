@@ -71,8 +71,9 @@ const InspectionSchema = new mongoose.Schema(
     picture: {
         type: String,
         required: false,
-    }
-  }
+    },
+  },
+  { timestamps: true },
 );
 
 const Inspection = mongoose.model('inspection', InspectionSchema);
