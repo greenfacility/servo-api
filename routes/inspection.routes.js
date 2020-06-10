@@ -5,7 +5,9 @@ const Inspection = require('../service/inspection.service');
 
 router.post('/', auth, Inspection.create);
 
-router.patch('/:id', auth, Inspection.patch);
+router.get('/', Inspection.get);
+
+router.get('/:id', Inspection.getOne);
 
 router.delete('/:id', auth, Inspection.delete);
 
